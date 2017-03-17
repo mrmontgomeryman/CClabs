@@ -31,24 +31,6 @@ extern uint32_t tos_P1;
 extern void     main_P2();
 extern uint32_t tos_P2;
 
-void hilevel_handler_irq() {
-  // Step 2: read  the interrupt identifier so we know the source.
-
-  uint32_t id = GICC0->IAR;
-
-  // Step 4: handle the interrupt, then clear (or reset) the source.
-
-  if( id == GIC_SOURCE_TIMER0 ) {
-    PL011_putc( UART0, 'T', true ); TIMER0->Timer1IntClr = 0x01;
-  }
-
-  // Step 5: write the interrupt identifier to signal we're done.
-
-  GICC0->EOIR = id;
-
-  return;
-}
-
 void hilevel_handler_rst( ctx_t* ctx              ) {
   /* Initialise PCBs representing processes stemming from execution of
    * the two user programs.  Note in each case that
@@ -121,6 +103,24 @@ void hilevel_handler_svc( ctx_t* ctx, uint32_t id ) {
       break;
     }
   }
+
+  return;
+}
+
+void hilevel_handler_irq() {
+  // Step 2: read  the interrupt identifier so we know the source.
+
+  uint32_t id = GICC0->IAR;
+
+  // Step 4: handle the interrupt, then clear (or reset) the source.
+
+  if( id == GIC_SOURCE_TIMER0 ) {
+    PL011_putc( UART0, 'T', true ); TIMER0->Timer1IntClr = 0x01;
+  }
+
+  // Step 5: write the interrupt identifier to signal we're done.
+
+  GICC0->EOIR = id;
 
   return;
 }
