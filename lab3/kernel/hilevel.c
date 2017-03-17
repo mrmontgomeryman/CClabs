@@ -81,12 +81,12 @@ void hilevel_handler_rst( ctx_t* ctx              ) {
   GICC0->CTLR         = 0x00000001; // enable GIC interface
   GICD0->CTLR         = 0x00000001; // enable GIC distributor
 
-  int_enable_irq();
+  //int_enable_irq();
   /* Once the PCBs are initialised, we (arbitrarily) select one to be
    * restored (i.e., executed) when the function then returns.
    */
 
-  //current = &pcb[ 0 ]; memcpy( ctx, &current->ctx, sizeof( ctx_t ) );
+  current = &pcb[ 0 ]; memcpy( ctx, &current->ctx, sizeof( ctx_t ) );
 
   return;
 }
