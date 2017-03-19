@@ -32,7 +32,7 @@ extern uint32_t tos_P1;
 extern void     main_P2();
 extern uint32_t tos_P2;
 
-void hilevel_handler_rst( ctx_t* ctx              ) {
+void hilevel_handler_rst(/* ctx_t* ctx             */ ) {
   /* Initialise PCBs representing processes stemming from execution of
    * the two user programs.  Note in each case that
    *
