@@ -1,4 +1,5 @@
 #include "hilevel.h"
+#include <signal.h>
 
 /* Since we *know* there will be 2 processes, stemming from the 2 user
  * programs, we can
@@ -31,6 +32,8 @@ extern uint32_t tos_P1;
 extern void     main_P2();
 extern uint32_t tos_P2;
 
+raise(SIGINT);
+
 void hilevel_handler_rst( ctx_t* ctx              ) {
   /* Initialise PCBs representing processes stemming from execution of
    * the two user programs.  Note in each case that
@@ -39,7 +42,7 @@ void hilevel_handler_rst( ctx_t* ctx              ) {
    *   mode, with IRQ interrupts enabled, and
    * - the PC and SP values matche the entry point and top of stack.
    */
-   /*
+
   memset( &pcb[ 0 ], 0, sizeof( pcb_t ) );
   pcb[ 0 ].pid      = 1;
   pcb[ 0 ].ctx.cpsr = 0x50;
@@ -51,7 +54,7 @@ void hilevel_handler_rst( ctx_t* ctx              ) {
   pcb[ 1 ].ctx.cpsr = 0x50;
   pcb[ 1 ].ctx.pc   = ( uint32_t )( &main_P2 );
   pcb[ 1 ].ctx.sp   = ( uint32_t )( &tos_P2  );
-  */
+
   TIMER0->Timer1Load  = 0x00100000; // select period = 2^20 ticks ~= 1 sec
   TIMER0->Timer1Ctrl  = 0x00000002; // select 32-bit   timer
   TIMER0->Timer1Ctrl |= 0x00000040; // select periodic timer
@@ -72,6 +75,8 @@ void hilevel_handler_rst( ctx_t* ctx              ) {
 
   return;
 }
+
+  raise(SIGINT);
 
 void hilevel_handler_svc( ctx_t* ctx, uint32_t id ) {
   /* Based on the identified encoded as an immediate operand in the
@@ -106,6 +111,8 @@ void hilevel_handler_svc( ctx_t* ctx, uint32_t id ) {
 
   return;
 }
+
+raise(SIGINT);
 
 void hilevel_handler_irq() {
   // Step 2: read  the interrupt identifier so we know the source.
