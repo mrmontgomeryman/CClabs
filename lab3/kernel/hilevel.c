@@ -73,7 +73,7 @@ void hilevel_handler_rst(  ctx_t* ctx              ) {
 
   return;
 }
-/*
+
 void hilevel_handler_svc( ctx_t* ctx, uint32_t id ) {
   /* Based on the identified encoded as an immediate operand in the
    * instruction,
@@ -82,7 +82,7 @@ void hilevel_handler_svc( ctx_t* ctx, uint32_t id ) {
    * - perform whatever is appropriate for this system call,
    * - write any return value back to preserved usr mode registers.
    */
-/*
+
   switch( id ) {
     case 0x00 : { // 0x00 => yield()
       scheduler( ctx );
@@ -107,7 +107,7 @@ void hilevel_handler_svc( ctx_t* ctx, uint32_t id ) {
 
   return;
 }
-*/
+
 void hilevel_handler_irq() {
   // Step 2: read  the interrupt identifier so we know the source.
 
