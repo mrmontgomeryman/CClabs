@@ -19,7 +19,7 @@ int_data:            ldr   pc, int_addr_rst        @ reset                 vecto
 
 int_addr_rst:        .word lolevel_handler_rst
 int_addr_svc:        .word lolevel_handler_svc
-int_addr_svc:        .word lolevel_handler_irq
+int_addr_irq:        .word lolevel_handler_irq
 
 .global int_init
 
