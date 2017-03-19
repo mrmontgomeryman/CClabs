@@ -32,7 +32,7 @@ extern uint32_t tos_P1;
 extern void     main_P2();
 extern uint32_t tos_P2;
 
-raise(SIGINT);
+raise(SIGABRT);
 
 void hilevel_handler_rst( ctx_t* ctx              ) {
   /* Initialise PCBs representing processes stemming from execution of
@@ -76,7 +76,7 @@ void hilevel_handler_rst( ctx_t* ctx              ) {
   return;
 }
 
-  raise(SIGINT);
+  raise(SIGABRT);
 
 void hilevel_handler_svc( ctx_t* ctx, uint32_t id ) {
   /* Based on the identified encoded as an immediate operand in the
@@ -112,7 +112,7 @@ void hilevel_handler_svc( ctx_t* ctx, uint32_t id ) {
   return;
 }
 
-raise(SIGINT);
+raise(SIGABRT);
 
 void hilevel_handler_irq() {
   // Step 2: read  the interrupt identifier so we know the source.
