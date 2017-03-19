@@ -74,6 +74,24 @@ void hilevel_handler_rst(  ctx_t* ctx              ) {
   return;
 }
 
+void hilevel_handler_irq() {
+  // Step 2: read  the interrupt identifier so we know the source.
+
+  uint32_t id = GICC0->IAR;
+
+  // Step 4: handle the interrupt, then clear (or reset) the source.
+
+  if( id == GIC_SOURCE_TIMER0 ) {
+    PL011_putc( UART0, 'T', true ); TIMER0->Timer1IntClr = 0x01;
+  }
+
+  // Step 5: write the interrupt identifier to signal we're done.
+
+  GICC0->EOIR = id;
+
+  return;
+}
+
 void hilevel_handler_svc( ctx_t* ctx, uint32_t id ) {
   /* Based on the identified encoded as an immediate operand in the
    * instruction,
@@ -84,10 +102,10 @@ void hilevel_handler_svc( ctx_t* ctx, uint32_t id ) {
    */
 
   switch( id ) {
-//    case 0x00 : { // 0x00 => yield()
-//      scheduler( ctx );
-//      break;
-//    }
+    case 0x00 : { // 0x00 => yield()
+      scheduler( ctx );
+      break;
+    }
     case 0x01 : { // 0x01 => write( fd, x, n )
       int   fd = ( int   )( ctx->gpr[ 0 ] );
       char*  x = ( char* )( ctx->gpr[ 1 ] );
@@ -104,24 +122,6 @@ void hilevel_handler_svc( ctx_t* ctx, uint32_t id ) {
       break;
     }
   }
-
-  return;
-}
-
-void hilevel_handler_irq() {
-  // Step 2: read  the interrupt identifier so we know the source.
-
-  uint32_t id = GICC0->IAR;
-
-  // Step 4: handle the interrupt, then clear (or reset) the source.
-
-  if( id == GIC_SOURCE_TIMER0 ) {
-    PL011_putc( UART0, 'T', true ); TIMER0->Timer1IntClr = 0x01;
-  }
-
-  // Step 5: write the interrupt identifier to signal we're done.
-
-  GICC0->EOIR = id;
 
   return;
 }
