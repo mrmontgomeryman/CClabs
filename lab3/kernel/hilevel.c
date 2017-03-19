@@ -84,10 +84,10 @@ void hilevel_handler_svc( ctx_t* ctx, uint32_t id ) {
    */
 
   switch( id ) {
-    case 0x00 : { // 0x00 => yield()
-      scheduler( ctx );
-      break;
-    }
+//    case 0x00 : { // 0x00 => yield()
+//      scheduler( ctx );
+//      break;
+//    }
     case 0x01 : { // 0x01 => write( fd, x, n )
       int   fd = ( int   )( ctx->gpr[ 0 ] );
       char*  x = ( char* )( ctx->gpr[ 1 ] );
