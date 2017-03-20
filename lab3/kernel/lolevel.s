@@ -4,7 +4,6 @@
  */
 
 .global lolevel_handler_rst
-.global lolevel_handler_svc
 .global lolevel_handler_irq
 
 lolevel_handler_rst: bl    int_init                @ initialise interrupt vector table
