@@ -18,13 +18,13 @@ lolevel_handler_rst: bl    int_init                @ initialise interrupt vector
 
                      mov   r0, sp                  @ set    high-level C function arg. = SP
                      bl    hilevel_handler_rst     @ invoke high-level C function
+                     b     .                       @ halt
 
                      ldmia sp!, { r0, lr }         @ load   USR mode PC and CPSR
                      msr   spsr, r0                @ set    USR mode        CPSR
                      ldmia sp, { r0-r12, sp, lr }^ @ load   USR mode registers
                      add   sp, sp, #60             @ update SVC mode SP
                      movs  pc, lr                  @ return from interrupt
-                     b     .                       @ halt
 
 lolevel_handler_irq: sub   lr, lr, #4              @ correct return address
                      sub   sp, sp, #60             @ update SVC mode stack
