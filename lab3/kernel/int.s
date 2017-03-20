@@ -10,16 +10,16 @@
 
 int_data:            ldr   pc, int_addr_rst        @ reset                 vector -> SVC mode
                      b     .                       @ undefined instruction vector -> UND mode
-                     b     .                       @ supervisor call       vector -> SVC mode
+                     ldr   pc, int_addr_svc        @ supervisor call       vector -> SVC mode
                      b     .                       @ pre-fetch abort       vector -> ABT mode
                      b     .                       @      data abort       vector -> ABT mode
                      b     .                       @ reserved
-                     ldr   pc, int_addr_irq        @ IRQ                   vector -> IRQ mode
+                     b     .                       @ IRQ                   vector -> IRQ mode
                      b     .                       @ FIQ                   vector -> FIQ mode
 
 int_addr_rst:        .word lolevel_handler_rst
-int_addr_irq:        .word lolevel_handler_irq
 int_addr_svc:        .word lolevel_handler_svc
+int_addr_irq:        .word lolevel_handler_irq
 
 .global int_init
 
