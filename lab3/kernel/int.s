@@ -67,4 +67,3 @@ int_unable_fiq:      mrs   r0,   cpsr              @ get USR mode CPSR
                      msr   cpsr_c, r0              @ set USR mode CPSR
 
                      mov   pc, lr                  @ return
- */
