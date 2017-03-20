@@ -68,32 +68,3 @@ int_unable_fiq:      mrs   r0,   cpsr              @ get USR mode CPSR
 
                      mov   pc, lr                  @ return
  */
-
-.global int_enable_irq
-.global int_unable_irq
-.global int_enable_fiq
-.global int_unable_fiq
-
-int_enable_irq:      mrs   r0,   cpsr              @ get USR mode CPSR
-                     bic   r0, r0, #0x80           @  enable IRQ interrupts
-                     msr   cpsr_c, r0              @ set USR mode CPSR
-
-                     mov   pc, lr                  @ return
-
-int_unable_irq:      mrs   r0,   cpsr              @ get USR mode CPSR
-                     orr   r0, r0, #0x80           @ disable IRQ interrupts
-                     msr   cpsr_c, r0              @ set USR mode CPSR
-
-                     mov   pc, lr                  @ return
-
-int_enable_fiq:      mrs   r0,   cpsr              @ get USR mode CPSR
-                     bic   r0, r0, #0x40           @  enable FIQ interrupts
-                     msr   cpsr_c, r0              @ set USR mode CPSR
-
-                     mov   pc, lr                  @ return
-
-int_unable_fiq:      mrs   r0,   cpsr              @ get USR mode CPSR
-                     orr   r0, r0, #0x40           @ disable FIQ interrupts
-                     msr   cpsr_c, r0              @ set USR mode CPSR
-
-                     mov   pc, lr                  @ return
