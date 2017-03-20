@@ -9,6 +9,12 @@
  *   can be created, and neither is able to complete.
  */
 
+ void print(char* x, int n){
+   for( int i = 0; i<n; i++){
+     PL011_putc(UART0, *x++, true);
+   }
+ }
+
 pcb_t pcb[ 2 ], *current = NULL;
 
 void scheduler( ctx_t* ctx ) {
@@ -64,6 +70,7 @@ void hilevel_handler_rst(  ctx_t* ctx              ) {
   GICD0->CTLR         = 0x00000001; // enable GIC distributor
 
   int_enable_irq();
+  print("irqReach",8);
   /* Once the PCBs are initialised, we (arbitrarily) select one to be
    * restored (i.e., executed) when the function then returns.
    */
