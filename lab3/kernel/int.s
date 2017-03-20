@@ -12,6 +12,8 @@ int_data:            ldr   pc, int_addr_rst        @ reset                 vecto
                      b     .                       @ undefined instruction vector -> UND mode
                      ldr   pc, int_addr_svc        @ supervisor call       vector -> SVC mode
                      b     .                       @ pre-fetch abort       vector -> ABT mode
+                     ldr   pc, int_addr_irq        @ irq call              vector -> IRQ mode
+                     b     .                       @ undefined instruction vector -> UND mode
                      b     .                       @      data abort       vector -> ABT mode
                      b     .                       @ reserved
                      b     .                       @ IRQ                   vector -> IRQ mode
