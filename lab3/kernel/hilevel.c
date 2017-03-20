@@ -68,7 +68,7 @@ void hilevel_handler_rst(  ctx_t* ctx              ) {
    * restored (i.e., executed) when the function then returns.
    */
 
-  current = &pcb[ 0 ]; memcpy( ctx, &current->ctx, sizeof( ctx_t ) );
+  //current = &pcb[ 0 ]; memcpy( ctx, &current->ctx, sizeof( ctx_t ) );
 
   return;
 }
