@@ -33,8 +33,6 @@ lolevel_handler_irq: sub   lr, lr, #4              @ correct return address
 
                      mov   r0, sp                  @ set    high-level C function arg. = SP
 
-                     bl    hilevel_handler_irq     @ invoke high-level C function
-
                      ldr   r1, [ lr, #-4 ]         @ load                     svc instruction
                      bic   r1, r1, #0xFF000000     @ set    high-level C function arg. = svc immediate
                      bl    hilevel_handler_irq     @ invoke high-level C function

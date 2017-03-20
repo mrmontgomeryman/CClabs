@@ -46,7 +46,7 @@ void hilevel_handler_rst(  ctx_t* ctx              ) {
   pcb[ 0 ].ctx.pc   = ( uint32_t )( &main_P1 );
   pcb[ 0 ].ctx.sp   = ( uint32_t )( &tos_P1  );
 
-  memset( &pcb[ 1 ], 1, sizeof( pcb_t ) );
+  memset( &pcb[ 1 ], 0, sizeof( pcb_t ) );
   pcb[ 1 ].pid      = 2;
   pcb[ 1 ].ctx.cpsr = 0x50;
   pcb[ 1 ].ctx.pc   = ( uint32_t )( &main_P2 );
