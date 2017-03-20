@@ -1,5 +1,4 @@
 #include "hilevel.h"
-#include <signal.h>
 
 /* Since we *know* there will be 2 processes, stemming from the 2 user
  * programs, we can
