@@ -101,7 +101,7 @@ void hilevel_handler_svc( ctx_t* ctx, uint32_t id ) {
    */
 
   switch( id ) {
-    case 0x00 : { 0x00 => yield();
+    case 0x00 : { // 0x00 => yield()
       scheduler( ctx );
       break;
     }
