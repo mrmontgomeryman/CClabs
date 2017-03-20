@@ -79,7 +79,7 @@ void hilevel_handler_rst(  ctx_t* ctx              ) {
   return;
 }
 
-void hilevel_handler_irq() {
+void hilevel_handler_irq( ctx_t* ctx ) {
   // Step 2: read  the interrupt identifier so we know the source.
 
   uint32_t id = GICC0->IAR;
