@@ -18,7 +18,6 @@ lolevel_handler_rst: bl    int_init                @ initialise interrupt vector
 
                      mov   r0, sp                  @ set    high-level C function arg. = SP
                      bl    hilevel_handler_rst     @ invoke high-level C function
-                     b     .                       @ halt
 
                      ldmia sp!, { r0, lr }         @ load   USR mode PC and CPSR
                      msr   spsr, r0                @ set    USR mode        CPSR
@@ -49,6 +48,7 @@ lolevel_handler_svc: sub   lr, lr, #0              @ correct return address
                      stmia sp, { r0-r12, sp, lr }^ @ store  USR registers
                      mrs   r0, spsr                @ get    USR        CPSR
                      stmdb sp!, { r0, lr }         @ store  USR PC and CPSR
+                     stmfd sp!, { r0-r12, ip, lr }  @ save    caller-save registers
 
                      mov   r0, sp                  @ set    high-level C function arg. = SP
                      ldr   r1, [ lr, #-4 ]         @ load                     svc instruction
@@ -59,4 +59,5 @@ lolevel_handler_svc: sub   lr, lr, #0              @ correct return address
                      msr   spsr, r0                @ set    USR mode        CPSR
                      ldmia sp, { r0-r12, sp, lr }^ @ load   USR mode registers
                      add   sp, sp, #60             @ update SVC mode SP
+                     ldmfd sp!, { r0-r12, ip, lr }  @ restore caller-save registers
                      movs  pc, lr                  @ return from interrupt
