@@ -10,16 +10,16 @@
 
 int_data:            ldr   pc, int_addr_rst        @ reset                 vector -> SVC mode
                      b     .                       @ undefined instruction vector -> UND mode
-                     ldr   pc, int_addr_svc        @ supervisor call       vector -> SVC mode
+                     b     .                       @ supervisor call       vector -> SVC mode
                      b     .                       @ pre-fetch abort       vector -> ABT mode
                      b     .                       @      data abort       vector -> ABT mode
                      b     .                       @ reserved
-                     b     .                       @ IRQ                   vector -> IRQ mode
+                     ldr   pc, int_addr_irq        @ IRQ                   vector -> IRQ mode
                      b     .                       @ FIQ                   vector -> FIQ mode
 
 int_addr_rst:        .word lolevel_handler_rst
-int_addr_svc:        .word lolevel_handler_svc
 int_addr_irq:        .word lolevel_handler_irq
+int_addr_svc:        .word lolevel_handler_svc
 
 .global int_init
 
@@ -37,6 +37,36 @@ l0:                  ldr   r3, [ r1 ], #4          @ load  word, inc. source    
 
 /* These function enable and disable IRQ and FIQ interrupts, toggling
  * either the 6-th or 7-th bit of CPSR to 0 or 1 respectively.
+ */
+
+.global int_enable_irq
+.global int_unable_irq
+.global int_enable_fiq
+.global int_unable_fiq
+
+int_enable_irq:      mrs   r0,   cpsr              @ get USR mode CPSR
+                     bic   r0, r0, #0x80           @  enable IRQ interrupts
+                     msr   cpsr_c, r0              @ set USR mode CPSR
+
+                     mov   pc, lr                  @ return
+
+int_unable_irq:      mrs   r0,   cpsr              @ get USR mode CPSR
+                     orr   r0, r0, #0x80           @ disable IRQ interrupts
+                     msr   cpsr_c, r0              @ set USR mode CPSR
+
+                     mov   pc, lr                  @ return
+
+int_enable_fiq:      mrs   r0,   cpsr              @ get USR mode CPSR
+                     bic   r0, r0, #0x40           @  enable FIQ interrupts
+                     msr   cpsr_c, r0              @ set USR mode CPSR
+
+                     mov   pc, lr                  @ return
+
+int_unable_fiq:      mrs   r0,   cpsr              @ get USR mode CPSR
+                     orr   r0, r0, #0x40           @ disable FIQ interrupts
+                     msr   cpsr_c, r0              @ set USR mode CPSR
+
+                     mov   pc, lr                  @ return
  */
 
 .global int_enable_irq
