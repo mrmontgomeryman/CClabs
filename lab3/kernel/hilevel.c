@@ -8,13 +8,13 @@
  * - employ a fixed-case of round-robin scheduling: no more processes
  *   can be created, and neither is able to complete.
  */
-
+/*
  void print(char* x, int n){
    for( int i = 0; i<n; i++){
      PL011_putc(UART0, *x++, true);
    }
  }
-
+*/
 pcb_t pcb[ 2 ], *current = NULL;
 
 void scheduler( ctx_t* ctx ) {
